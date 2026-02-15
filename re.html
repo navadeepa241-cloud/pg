@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Registration Form</title>
+    </head>
+    <body>
+        <header>
+            <h1>Madhu PG for Boys </h1>
+            <nav>
+                <div class="navi">
+                    <a href="index.html">Home</a>
+                    <a href="login.html">Login</a>
+                    <a href="re.html">Registration</a>
+                </div>
+            </nav>
+        </header>
+        <div id="continer">
+            <center>
+                <h1>Registration Form</h1>
+            </center>
+            <form name="Registration" action="process_form.php" method="post" onsubmit="return validateForm()">
+
+                <table>
+                    <tr>
+                        <td><label for="first_name">First Name</label></td>
+                        <td><input id="first_na" name="first_na" type="text" required placeholder="Enter your first name"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="last">Last Name</label></td>
+                        <td><input id="last" name="last" type="text" required placeholder="Enter your last name"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="pho">Phone Number</label></td>
+                        <td><input id="pho" name="pho" type="tel" required placeholder="Enter your phone number"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="bir">DOB</label></td>
+                        <td><input id="bir" name="bir" type="date" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="mi">E mail</label></td>
+                        <td><input id="mi" name="mi" type="email" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="add">Address</label></td>
+                        <td><input id="add" name="add" type="text" required placeholder="Enter your address"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="join">Joining Date</label></td>
+                        <td><input id="join" name="join" type="date" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="share">Sharing Type</label></td>
+                        <td><input id="share" name="share" type="number" required placeholder="Enter sharing type"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="am">Amount</label></td>
+                        <td><input id="am" name="am" type="number" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="payment">Payment Option</label></td>
+                        <td>
+                            <select id="payment" name="payment" required onchange="showQRCodePopup()">
+                                <option value="">--Select Payment Option--</option>
+                                <option value="upi">UPI</option>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Submit">
+                            <input type="reset" value="Reset">
+                            <button>
+                                <a href="index.html" title="Home">Back to Home</a>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    
+        <!-- Modal for QR Code -->
+        <div id="overlay"></div>
+        <div id="qrModal">
+            <h3>Scan to Pay</h3>
+            <img src="scanner.jpg" alt="QR Code for Payment">
+            <button onclick="closeQRCode()">Close</button>
+        </div>
+    
+        <script>
+            // JavaScript for QR Code Modal
+            function showQRCodePopup() {
+                const paymentOption = document.getElementById('payment').value;
+                const qrModal = document.getElementById('qrModal');
+                const overlay = document.getElementById('overlay');
+                
+                if (paymentOption === 'upi') {
+                    qrModal.style.display = 'block';
+                    overlay.style.display = 'block';
+                } else {
+                    qrModal.style.display = 'none';
+                    overlay.style.display = 'none';
+                }
+            }
+    
+            function closeQRCode() {
+                document.getElementById('qrModal').style.display = 'none';
+                document.getElementById('overlay').style.display = 'none';
+            }
+
+            // JavaScript to set the max date for DOB and min date for Joining Date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bir').setAttribute('max', today); // Max date for DOB
+            document.getElementById('join').setAttribute('min', today); // Min date for Joining Date
+
+            // Function to validate the form
+            function validateForm() {
+                const phone = document.getElementById('pho').value;
+                const sharingType = document.getElementById('share').value;
+
+                // Phone number validation
+                const phoneRegex = /^[0-9]{10}$/;
+                if (!phoneRegex.test(phone)) {
+                    alert("Phone number must be exactly 10 digits.");
+                    return false; // Prevent form submission
+                }
+
+                // Sharing type validation
+                if (sharingType < 0) {
+                    alert("Sharing type cannot be negative.");
+                    return false; // Prevent form submission
+                }
+
+                return true; // Allow form submission if all validations pass
+            }
+        </script>
+    </body>
+</html>
